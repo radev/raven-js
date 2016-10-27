@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.7.1
+* CHANGE: Record fetch requests breadcrumbs and input from contentEditable targets
+* BUGFIX: Updated typings
+
 ## 3.7.0
 * BUGFIX: Add missing return types from TypeScript declaration file. See: https://github.com/getsentry/raven-js/pull/718
 * BUGFIX: Fix "Permission denied" error in Firefox via WebDriver. See: https://github.com/getsentry/raven-js/pull/720
