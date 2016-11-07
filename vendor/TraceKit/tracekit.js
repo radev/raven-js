@@ -377,6 +377,7 @@ TraceKit.computeStackTrace = (function computeStackTraceWrapper() {
         var chrome = /^\s*at (.*?) ?\(((?:file|https?|blob|chrome-extension|native|eval|<anonymous>).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i,
             gecko = /^\s*(.*?)(?:\((.*?)\))?(?:^|@)((?:file|https?|blob|chrome|\[native).*?)(?::(\d+))?(?::(\d+))?\s*$/i,
             winjs = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:file|ms-appx|https?|blob):.*?):(\d+)(?::(\d+))?\)?\s*$/i,
+            reactNativeBundle = /^\s*(.*?)@index\.(android|ios)\.bundle:(\d+):(\d+)\s*$/i,
             lines = ex.stack.split('\n'),
             stack = [],
             parts,
@@ -408,6 +409,14 @@ TraceKit.computeStackTrace = (function computeStackTraceWrapper() {
                     'args': parts[2] ? parts[2].split(',') : [],
                     'line': parts[4] ? +parts[4] : null,
                     'column': parts[5] ? +parts[5] : null
+                };
+            } else if ((parts = reactNativeBundle.exec(lines[i]))) {
+                element = {
+                    'url': 'assets://index.' + parts[2] + '.bundle',
+                    'func': parts[1] || UNKNOWN_FUNCTION,
+                    'args': [],
+                    'line': parts[3] ? +parts[3] : null,
+                    'column': parts[4] ? +parts[4] : null
                 };
             } else {
                 continue;
